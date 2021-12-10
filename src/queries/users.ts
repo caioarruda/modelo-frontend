@@ -24,6 +24,14 @@ const USER_UPDATED = gql`
         }
     }
 `;
+const USER_CREATED = gql`
+    subscription userCreated{
+        userCreated{
+            nome
+            email
+            _id
+        }
+    }
+`;
 
-
-export { GET_USERS, USER_UPDATED };
+export { GET_USERS, USER_UPDATED, USER_CREATED };

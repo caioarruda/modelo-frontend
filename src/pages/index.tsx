@@ -3,12 +3,13 @@ import type { NextPage } from 'next';
 import Container from '@mui/material/Container';
 
 import { Grid, Paper, Table, TableHead, TableBody, TableCell, TableRow, } from '@mui/material';
-import { createStyles, Theme } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
+import { Theme } from '@mui/material/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import theme from '../styles/theme';
-import { useQuery } from '@apollo/client';
-import { GET_USERS } from '../queries/users';
+import { useQuery, useSubscription } from '@apollo/client';
+import { GET_USERS, USER_CREATED } from '../queries/users';
 import UserPubSub from '../components/users/UserPubSub';
+import UserType from '../types/user';
 
 const useStyles: any = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,8 +35,26 @@ const useStyles: any = makeStyles((theme: Theme) =>
 
 
 const Home: NextPage = () => {
-  const { data, loading, error, refetch } = useQuery(GET_USERS);
-
+  const { data, loading } = useQuery(GET_USERS);
+  const result = useSubscription(USER_CREATED);
+  const [users, setUsers] = React.useState<UserType[]>([]);
+  React.useEffect(() => {
+    if (!loading && data.getUsers?.length > 0) {
+      setUsers(data.getUsers);
+    }
+  }, [data]);
+  React.useEffect(() => {
+    console.log(result);
+    if (result.data?.userCreated) {
+      const newUsers = [...users];
+      const newUser: UserType = {} as UserType;
+      newUser._id = result.data.userCreated._id;
+      newUser.nome = result.data.userCreated.nome;
+      newUser.email = result.data.userCreated.email;
+      newUsers.push(newUser);
+      setUsers(newUsers);
+    }
+  }, [result]);
   return (
     <Container maxWidth="lg">
       <Grid >
@@ -47,7 +66,7 @@ const Home: NextPage = () => {
       </Grid>
 
       <Grid >
-        <Paper>
+        <Paper className={useStyles(theme).card} >
           <Table>
             <TableHead>
               <TableRow>
@@ -57,8 +76,13 @@ const Home: NextPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-
-              {loading ? <>Carregando</> : data.getUsers.map((user: any) => (<UserPubSub key={user._id} user={user} />))}
+              {loading ? (
+                <TableRow>
+                  <TableCell>Carregando... </TableCell>
+                </TableRow>
+              ) : users.length ? users.map((user: UserType) => (<UserPubSub key={user._id} user={user} />)) : (<TableRow>
+                <TableCell>Nenhum usuário encontrado </TableCell>
+              </TableRow>)}
             </TableBody>
           </Table>
         </Paper>
