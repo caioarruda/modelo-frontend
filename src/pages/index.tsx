@@ -44,7 +44,6 @@ const Home: NextPage = () => {
     }
   }, [data]);
   React.useEffect(() => {
-    console.log(result);
     if (result.data?.userCreated) {
       const newUsers = [...users];
       const newUser: UserType = {} as UserType;
