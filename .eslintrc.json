@@ -4,5 +4,11 @@
   },
   "extends": [
     "plugin:@next/next/recommended"
-  ]
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+    }
+  }
 }
