@@ -2,13 +2,9 @@
   "env": {
     "browser": true
   },
-  "extends": [
-    "plugin:@next/next/recommended"
-  ],
-  "parserOptions": {
-    "ecmaFeatures": {
-        "jsx": true,
-        "modules": true
-    }
+  "extends": "next",
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off"
   }
 }

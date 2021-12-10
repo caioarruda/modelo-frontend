@@ -24,7 +24,7 @@ const useStyles: any = makeStyles((theme: Theme) =>
     },
     header: {
       textAlign: 'center',
-      background: '#000',
+      background: '#253083',
     },
     card: {
       marginTop: theme.spacing(10)
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
     <Container maxWidth="lg">
       <Grid >
         <Paper>
-          <Grid spacing={3} color={'Menu'} flexDirection={'column'} className={useStyles(theme).header} >
+          <Grid color={'Menu'} flexDirection={'column'} className={useStyles(theme).header} >
             <h1>Usuários</h1>
           </Grid>
         </Paper>
@@ -57,7 +57,7 @@ const Home: NextPage = () => {
             </TableHead>
             <TableBody>
 
-              {loading ? <>Carregando</> : data.getUsers.map((user: any) => (<UserPubSub user={user} />))}
+              {loading ? <>Carregando</> : data.getUsers.map((user: any) => (<UserPubSub key={user._id} user={user} />))}
             </TableBody>
           </Table>
         </Paper>
