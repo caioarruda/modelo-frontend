@@ -51,6 +51,7 @@ const Home: NextPage = () => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>Id</TableCell>
                 <TableCell>Nome</TableCell>
                 <TableCell>Email</TableCell>
               </TableRow>

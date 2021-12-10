@@ -17,12 +17,15 @@ const UserPubSub: React.FC<Props> = (props) => {
     }
     let nome = props.user.nome;
     let email = props.user.email;
+    let id = props.user._id;
     if (result?.data?.userUpdated) {
+        id = result?.data?.userUpdated._id;
         nome = result?.data?.userUpdated.nome;
         email = result?.data?.userUpdated.email;
     }
     return (
         <TableRow>
+            <TableCell>{id}</TableCell>
             <TableCell>{nome}</TableCell>
             <TableCell>{email}</TableCell>
         </TableRow>
